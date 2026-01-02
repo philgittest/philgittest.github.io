@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EF Mindset Deck</title>
+    <style>
+        :root {
+            --primary: #6200ee;
+            --accent: #03dac6;
+            --bg: #f5f7fa;
+            --text: #333;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { background: var(--primary); color: white; width: 100%; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .card-container { width: 90%; max-width: 400px; margin-top: 50px; perspective: 1000px; }
+        .card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); min-height: 300px; display: flex; flex-direction: column; justify-content: center; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .card h2 { color: var(--primary); margin-bottom: 10px; }
+        .card p { line-height: 1.6; font-size: 1.1rem; }
+        .btn { background: var(--accent); border: none; padding: 15px 30px; border-radius: 30px; color: black; font-weight: bold; margin-top: 30px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn:active { transform: scale(0.95); }
+        .footer { margin-top: auto; padding: 20px; font-size: 0.8rem; color: #888; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>EF Mindset Deck</h1>
+</header>
+
+<div class="card-container">
+    <div class="card" id="mainCard">
+        <h2 id="cardTitle">Ready?</h2>
+        <p id="cardText">Tap the button below to get your Mindset for the day.</p>
+    </div>
+</div>
+
+<button class="btn" onclick="getRandomCard()">DRAW A CARD</button>
+
+<div class="footer">52 Principles for Focus & Flow</div>
+
+<script>
+    const cards = [
+        {title: "1. Next Physical Step", text: "Don't 'clean.' Just 'pick up one sock.' Break tasks into tiny physical movements."},
+        {title: "2. Body Doubling", text: "Work in the same space as someone else to act as a social anchor for your focus."},
+        {title: "3. Point and Call", text: "Physically point at a completed task (like locking the door) and say it out loud."},
+        {title: "4. The 2x Rule", text: "Double your time estimates. If you think it takes 20 minutes, give yourself 40."},
+        {title: "5. HALT Check", text: "Before reacting, ask: Am I Hungry, Angry, Lonely, or Tired?"},
+        {title: "6. The Launchpad", text: "Designate one spot for keys, phone, and wallet. If it’s not there, it’s lost."},
+        {title: "7. The 5-Minute Rule", text: "Commit to just 5 minutes of work. You can stop after that if you choose."},
+        {title: "8. One-Touch Rule", text: "If a task takes less than 2 minutes, do it now. Don't put it down, put it away."},
+        {title: "9. Brain Dump", text: "Write every 'to-do' and worry on paper to clear your mental RAM."},
+        {title: "10. Eat the Frog", text: "Do the task you dread most first thing in the morning to stop the 'dread-leak.'"},
+        {title: "11. The Pivot Shift", text: "When plans change, say: 'This is a pivot, not a failure.'"},
+        {title: "12. 24-Hour Wait Room", text: "Wait 24 hours before making an impulsive purchase or sending a risky text."},
+        {title: "13. Name it to Tame it", text: "Label the emotion (e.g., 'This is frustration') to calm the brain's alarm system."},
+        {title: "14. The W.A.I.T. Rule", text: "Ask: 'Why Am I Talking?' before interrupting or oversharing."},
+        {title: "15. Flexible Goalposts", text: "Lower the bar until you can clear it. Consistency beats perfection."},
+        {title: "16. Transparency Rule", text: "Use clear bins. If you can't see your things, your brain forgets they exist."},
+        {title: "17. Now vs. Not Now", text: "Sort your list into only two piles. Everything 'Not Now' is invisible."},
+        {title: "18. Color Coding", text: "Use colors to help your brain 'chunk' categories (Work=Blue, Life=Green)."},
+        {title: "19. Body-State Shift", text: "Stuck? Splash cold water on your face or change rooms to reset your brain."},
+        {title: "20. Analog Visuals", text: "Use a clock with a face. It helps you 'see' the slice of time disappearing."},
+        {title: "21. Battery Check", text: "Rate your energy 1–10. Match your task difficulty to your current fuel level."},
+        {title: "22. Productive Procrastination", text: "If you can't do Task A, do useful Task B instead of scrolling."},
+        {title: "23. Dopamine Menu", text: "Keep a list of 'healthy' quick wins (music, a walk) to recharge your focus."},
+        {title: "24. Transition Bridge", text: "Give yourself 5 minutes of 'doing nothing' between different tasks."},
+        {title: "25. Stop at the Peak", text: "Stop working while you still know what the next step is. It makes tomorrow easier."},
+        {title: "26. Time Mapping", text: "Track one day to see where time actually goes vs. where you think it goes."},
+        {title: "27. Pomodoro Sprint", text: "Work for 25 minutes, then take a mandatory 5-minute movement break."},
+        {title: "28. 15-Minute Warning", text: "Set an alarm for 15 minutes BEFORE you actually need to leave."},
+        {title: "29. Will-it-Matter Test", text: "Will this matter in 5 years? If not, don't give it 5 years of stress."},
+        {title: "30. Time Slicing", text: "Break a 2-hour project into eight 15-minute 'slices.'"},
+        {title: "31. Internal Narrator", text: "Narrate your actions: 'I am walking to the kitchen to get water.'"},
+        {title: "32. Social Scripting", text: "Pre-write your opening lines for a phone call or a difficult conversation."},
+        {title: "33. Check-In Chime", text: "Set an hourly bell to ask: 'Am I doing what I intended to do?'"},
+        {title: "34. Body Budgeting", text: "Check your 'hardware': Have you had protein, water, and sleep today?"},
+        {title: "35. 'And' not 'But'", text: "Say: 'I am overwhelmed AND I am going to do one small thing.'"},
+        {title: "36. Celebrate Small Wins", text: "Explicitly congratulate yourself for finishing a task. Build that dopamine."},
+        {title: "37. Mop-Up Hour", text: "Batch all tiny 1-minute tasks into one specific hour per week."},
+        {title: "38. Wait and See List", text: "Wait 7 days before buying supplies for a brand-new hobby."},
+        {title: "39. Radical Compassion", text: "Forgive the slip-up. You aren't lazy; you have an unstructured brain."},
+        {title: "40. Environment Design", text: "Put your phone in another room to use physical distance as a filter."},
+        {title: "41. Curiosity Shift", text: "Ask: 'Why did that tool fail?' instead of 'Why did I fail?'"},
+        {title: "42. Sensory Audit", text: "Check for buzzing lights, itchy tags, or smells draining your energy."},
+        {title: "43. The 'Done' List", text: "At 5 PM, write down everything you DID do, even the 'invisible' tasks."},
+        {title: "44. Brain-Friendly 'No'", text: "Practice saying: 'I don't have the bandwidth for that right now.'"},
+        {title: "45. The Reset Button", text: "A bad morning doesn't mean a bad day. Start over at any time."},
+        {title: "46. Sunday Reset", text: "Spend 20 minutes clearing your desk and mind for the week ahead."},
+        {title: "47. Habit Stacking", text: "Attach a new habit to an old one (e.g., 'After I brush my teeth, I fill my water.')"},
+        {title: "48. The Audit Card", text: "If a system isn't working, fire it. You don't work for your planner."},
+        {title: "49. Perspective Swapping", text: "What would you tell a friend who was struggling with this exact task?"},
+        {title: "50. The Thought Room", text: "When a distraction pops up, 'park' it on a list to look at later."},
+        {title: "51. The Brain Manual", text: "Tell people: 'I focus better when I'm doodling/pacing. It's how I listen.'"},
+        {title: "52. Radical Acceptance", text: "You have a race-car brain with bicycle brakes. Use your tools, and be kind."}
+    ];
+    
+    function getRandomCard() {
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        document.getElementById('cardTitle').innerText = cards[randomIndex].title;
+        document.getElementById('cardText').innerText = cards[randomIndex].text;
+    }
+</script>
+</body>
+</html>
